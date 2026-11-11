@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>mouchetis</title>
+  <meta name="description" content="Turns a photo of a person into a dot screen and erases the face. Runs in your browser, nothing is uploaded.">
+  <meta name="theme-color" content="#232220">
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header>
+    <h1><canvas id="mark" aria-hidden="true"></canvas><span class="sr">mouchetis</span></h1>
+    <button type="button" class="link" id="about-open">About</button>
+  </header>
+
+  <main id="stage">
+    <div id="empty">
+      <p class="lead">Turn a photo of a person into dots, with the face erased.</p>
+      <label class="pick">
+        <input type="file" id="file" accept="image/*">
+        <span>Choose a photo</span>
+      </label>
+      <p class="small">or drop it anywhere on the page</p>
+      <p class="small">The photo never leaves your device. The page only downloads the detection models, once.</p>
+    </div>
+    <canvas id="out" hidden></canvas>
+    <p id="busy" hidden></p>
+  </main>
+
+  <div id="bar" hidden>
+    <p id="status" aria-live="polite"><span class="dot"></span><span id="status-text"></span></p>
+
+    <div class="row sliders">
+      <label class="slider">
+        <span>Dissolve</span>
+        <input type="range" id="stage-range" min="0" max="1" step="0.01" value="0.25">
+      </label>
+      <label class="slider">
+        <span>Dot size</span>
+        <input type="range" id="grain" min="1" max="4" step="0.1" value="1.8">
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="seg" role="group" aria-label="Ink" data-name="polarity">
+        <button type="button" data-value="ink" aria-pressed="true">Dark dots</button>
+        <button type="button" data-value="light" aria-pressed="false">Light dots</button>
+      </div>
+      <div class="seg" role="group" aria-label="Erase" data-name="zone">
+        <button type="button" data-value="face" aria-pressed="true">Face</button>
+        <button type="button" data-value="head" aria-pressed="false">Whole head</button>
+      </div>
+      <div class="actions">
+        <button type="button" id="text-open" class="ghost" aria-expanded="false" aria-controls="text">Notes</button>
+        <button type="button" id="more-open" class="ghost" aria-expanded="false" aria-controls="more">More</button>
+        <button type="button" id="save" class="save" disabled>Save</button>
+      </div>
+    </div>
+
+    <div id="text" class="panel" hidden>
+      <div class="row">
+        <span class="label">Marks</span>
+        <div class="seg" role="group" aria-label="Marks on the image" data-name="mark">
+          <button type="button" data-value="none" aria-pressed="true">No marks</button>
+          <button type="button" data-value="ink" aria-pressed="false">Numbered marks</button>
+          <button type="button" data-value="accent" aria-pressed="false">Red marks</button>
+        </div>
+      </div>
+      <ol id="note-list"></ol>
+      <button type="button" id="note-add" class="ghost">Add a note</button>
+      <p class="small">Notes go under the image, with the position of what they point at. Left and right are the person's own.</p>
+    </div>
+
+    <div id="more" class="panel" hidden>
+      <div class="row">
+        <span class="label">Background</span>
+        <div class="seg" role="group" aria-label="Background" data-name="bg">
+          <button type="button" data-value="blur" aria-pressed="true">Blurred</button>
+          <button type="button" data-value="keep" aria-pressed="false">Kept</button>
+          <button type="button" data-value="black" aria-pressed="false">Removed</button>
+        </div>
+      </div>
+      <div class="row">
+        <span class="label">Show</span>
+        <div class="seg" role="group" aria-label="Show" data-name="view">
+          <button type="button" data-value="result" aria-pressed="true">Result</button>
+          <button type="button" data-value="recovered" aria-pressed="false">What can be recovered</button>
+          <button type="button" data-value="mask" aria-pressed="false">Mask placement</button>
+        </div>
+      </div>
+      <p id="view-note" class="small"></p>
+      <div class="row">
+        <label class="check"><input type="checkbox" id="caption" checked> Caption under the image</label>
+      </div>
+      <div class="row">
+        <button type="button" id="reroll" class="ghost">New random dots</button>
+        <button type="button" id="new-photo" class="ghost">Another photo</button>
+      </div>
+      <ul id="notes"></ul>
+    </div>
+  </div>
+
+  <dialog id="about">
+    <h2>What mouchetis does</h2>
+    <p>It finds the person, rebuilds the body as dots whose density follows the light of the photo, and replaces the face with dots that are computed only from the pixels around it. No original pixel is kept.</p>
+    <p>Everything runs in your browser. The photo is not sent anywhere. After the models are loaded you can turn off your connection and it still works.</p>
+    <p>After each render the page runs the face detector again on the result. If it still finds a face where the face was erased, it tells you.</p>
+    <h2>What it does not hide</h2>
+    <p>The body stays recognizable by its outline and posture. Tattoos, moles, jewelry and scars larger than the dots stay visible.</p>
+    <p>In a mirror photo the face can appear twice, and a blurry or side-on reflection can be missed. If a phone or a hand covers the face, the erased area is estimated from the posture. Check it with More, Show, Mask placement.</p>
+    <p>A photo already posted somewhere else can still be found, whatever you do to it.</p>
+    <form method="dialog"><button class="ghost">Close</button></form>
+  </dialog>
+</body>
+</html>
