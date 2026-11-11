@@ -1,0 +1,21 @@
+# photos and renders: nothing personal in the repo
+*.jpg
+*.jpeg
+*.png
+*.heic
+*.webp
+*_variantes/
+laphoto_*/
+var*/
+
+# models, downloaded to ~/.cache/mouchetis
+models/
+*.task
+*.tflite
+
+.venv/
+__pycache__/
+.DS_Store
+
+# working notes
+idee.md

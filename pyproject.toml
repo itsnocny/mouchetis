@@ -1,0 +1,20 @@
+[project]
+name = "mouchetis"
+version = "0.1.0"
+description = "Turns a photo of a person into a dot screen and erases the face."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    # 1.0.x crashes on start on macOS (Metal init), see the README.
+    "mediapipe==0.10.35",
+    "opencv-python",
+    "numpy",
+    "pillow",
+]
+
+[project.scripts]
+mouchetis = "mouchetis.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
