@@ -4,6 +4,7 @@
 *.png
 *.heic
 *.webp
+!docs/*.png
 *_variantes/
 laphoto_*/
 var*/

@@ -8,6 +8,12 @@ pose detection are written in a caption under the image.
 
 Everything runs locally. The saved image has no metadata.
 
+![The web page with a photo turned into dots](docs/result.png)
+
+The photo in these screenshots is a public domain portrait from the Library of
+Congress, found on
+[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Woman,_full-length_portrait,_standing,_facing_front_LCCN2005692517.jpg).
+
 There are two versions. The web page works on phones and computers with
 nothing to install. The Python command has more options (speech bubbles,
 an audit tool) and only runs on macOS for now.
@@ -23,10 +29,17 @@ left hand, upper body…) and is written in the caption under the image with
 that part's position. Numbered marks can show on the image where each note
 points.
 
+![Two notes, written in the caption under the image](docs/notes.png)
+
 After each render, the page runs the face detector again on the result. If it
 finds a face where the face was erased, it says so and the button becomes
 "Save anyway". Under More, it can also show what someone gets by blurring the
 dots, and the outline of the erased area on the original photo.
+
+<p>
+  <img src="docs/recovered.png" alt="What someone gets by blurring the dots: a dark outline, no face" width="560">
+  <img src="docs/phone.png" alt="The page on a phone" width="220">
+</p>
 
 To run it on your own machine:
 
