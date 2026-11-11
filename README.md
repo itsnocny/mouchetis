@@ -18,6 +18,16 @@ There are two versions. The web page works on phones and computers with
 nothing to install. The Python command has more options (speech bubbles,
 an audit tool) and only runs on macOS for now.
 
+## Why it exists
+
+I made it for my own NSFW photos and profile pictures. I wanted to post them
+without my face, and a blurred face or an emoji over it looked bad and didn't
+feel safe. mouchetis keeps the body and the pose and leaves nothing of the
+face.
+
+It's for anyone in the same situation: selfies, mirror pics, NSFW photos,
+profile pictures that shouldn't lead back to you.
+
 ## The web page
 
 It lives in `web/`. The photo is processed in the browser and is not sent
